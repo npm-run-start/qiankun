@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { routes } from '@/router/index'
 import { commonStore } from '@/stores/common'
 
 const common = commonStore()
@@ -25,30 +26,32 @@ const handleClose = (key: string, keyPath: string[]) => {
       <img src="@/assets/logo.png" alt="" />
       <span v-show="!common.collapse" class="t">美国队长</span>
     </div>
-    <el-menu-item index="/">
-      <el-icon><i-ep-house /></el-icon>
-      <template #title>首页</template>
-    </el-menu-item>
-    <el-menu-item index="/about">
-      <el-icon><i-ep-view /></el-icon>
-      <template #title>关于</template>
-    </el-menu-item>
-    <el-sub-menu index="1">
-      <template #title>
-        <el-icon><i-ep-Operation /></el-icon>
-        <span>微应用-1</span>
-      </template>
-      <el-menu-item index="/app/app-1/home">路由一</el-menu-item>
-      <el-menu-item index="/app/app-1/about">路由二</el-menu-item>
-    </el-sub-menu>
-    <el-sub-menu index="2">
-      <template #title>
-        <el-icon><i-ep-PieChart /></el-icon>
-        <span>微应用-2</span>
-      </template>
-      <el-menu-item index="/app/app-2/home">路由一</el-menu-item>
-      <el-menu-item index="/app/app-2/about">路由二</el-menu-item>
-    </el-sub-menu>
+
+    <template v-for="(item, index) of routes[0].children">
+      <!-- 无子级菜单 -->
+      <el-menu-item v-if="!item.children" :key="index" :index="item.path">
+        <el-icon>
+          <component class="el-icon" :is="item.meta.icon" />
+        </el-icon>
+        <span>{{ item.meta.title }}</span>
+      </el-menu-item>
+
+      <!-- 有子级菜单 -->
+      <el-sub-menu v-else :index="item.path">
+        <template #title>
+          <el-icon>
+            <component class="el-icon" :is="item.meta.icon" />
+          </el-icon>
+          <span>{{ item.meta.title }}</span>
+        </template>
+        <el-menu-item v-for="(ele, i) of item.children" :index="ele.path">
+          <el-icon>
+            <component class="el-icon" :is="ele.meta.icon" />
+          </el-icon>
+          <span>{{ ele.meta.title }}</span>
+        </el-menu-item>
+      </el-sub-menu>
+    </template>
   </el-menu>
 </template>
 

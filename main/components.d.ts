@@ -29,6 +29,7 @@ declare module 'vue' {
     IEpLocation: typeof import('~icons/ep/location')['default']
     IEpMenu: typeof import('~icons/ep/menu')['default']
     IEpOperation: typeof import('~icons/ep/operation')['default']
+    IEpPeration: typeof import('~icons/ep/peration')['default']
     IEpPieChart: typeof import('~icons/ep/pie-chart')['default']
     IEpSetting: typeof import('~icons/ep/setting')['default']
     IEpView: typeof import('~icons/ep/view')['default']

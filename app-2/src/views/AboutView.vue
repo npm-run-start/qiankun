@@ -52,7 +52,8 @@ const getUserInfo = () => {
     <audio controls>
       <source src="@/assets/media/game.mp3" />
     </audio> -->
-
+    <br />
+    <br />
     <p><i>测试函数式 pinia</i></p>
     <h1 @click="counter.increment()">Count ++ {{ counter.count }}</h1>
     <h1>CountDouble {{ counter.doubleCount }}</h1>
