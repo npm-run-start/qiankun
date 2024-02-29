@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { routes } from '@/router/index'
 import { commonStore } from '@/stores/common'
+import { iconMap } from '@/utils'
 
 const common = commonStore()
 
@@ -16,7 +16,7 @@ const handleClose = (key: string, keyPath: string[]) => {
   <el-menu
     background-color="#545c64"
     text-color="#fff"
-    default-active="/"
+    :default-active="common.menuActive.path || '/home'"
     :router="true"
     :collapse="common.collapse"
     @open="handleOpen"
@@ -27,28 +27,32 @@ const handleClose = (key: string, keyPath: string[]) => {
       <span v-show="!common.collapse" class="t">美国队长</span>
     </div>
 
-    <template v-for="(item, index) of routes[0].children">
+    <template v-for="(item, index) of common.routes[0].children">
       <!-- 无子级菜单 -->
-      <el-menu-item v-if="!item.children" :key="index" :index="item.path">
+      <el-menu-item
+        v-if="!item.children && !item.meta?.hide"
+        :key="index"
+        :index="item.path"
+      >
         <el-icon>
-          <component class="el-icon" :is="item.meta.icon" />
+          <component :is="iconMap[item.meta?.icon as string]" />
         </el-icon>
-        <span>{{ item.meta.title }}</span>
+        <span>{{ item.meta?.title }}</span>
       </el-menu-item>
 
       <!-- 有子级菜单 -->
-      <el-sub-menu v-else :index="item.path">
+      <el-sub-menu v-if="item.children" :index="item.path">
         <template #title>
           <el-icon>
-            <component class="el-icon" :is="item.meta.icon" />
+            <component :is="iconMap[item.meta?.icon as string]" />
           </el-icon>
-          <span>{{ item.meta.title }}</span>
+          <span>{{ item.meta?.title }}</span>
         </template>
         <el-menu-item v-for="(ele, i) of item.children" :index="ele.path">
           <el-icon>
-            <component class="el-icon" :is="ele.meta.icon" />
+            <component :is="iconMap[ele.meta?.icon as string]" />
           </el-icon>
-          <span>{{ ele.meta.title }}</span>
+          <span>{{ ele.meta?.title }}</span>
         </el-menu-item>
       </el-sub-menu>
     </template>
